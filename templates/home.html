@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="text-center">
+  <h1 class="display-5 fw-bold">Travel Bucket List & Tracker</h1>
+  <p class="lead">Plan your adventures, track your progress, and explore the world.</p>
+
+  <div class="row mt-4 g-3">
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <div class="stat-number text-primary">{{ total }}</div>
+          <div class="stat-label">Total Places</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <div class="stat-number text-success">{{ visited }}</div>
+          <div class="stat-label">Visited</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <div class="stat-number text-warning">{{ yet }}</div>
+          <div class="stat-label">Yet to Visit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a class="btn btn-primary me-2" href="{{ url_for('add_place') }}">Add Place</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('places') }}">View Bucket List</a>
+  </div>
+</section>
+{% endblock %}
