@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+  <h2 class="m-0">Your Bucket List</h2>
+  <div>
+    <a class="btn btn-sm btn-outline-secondary me-2" href="{{ url_for('export_csv') }}">Export CSV</a>
+    <a class="btn btn-sm btn-success" href="{{ url_for('add_place') }}">Add Place</a>
+  </div>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-3">
+    <input type="text" name="search" value="{{ request.args.get('search','') }}" class="form-control" placeholder="Search name or country" id="live-search">
+  </div>
+  <div class="col-md-2">
+    <select name="continent" class="form-select">
+      <option value="">All Continents</option>
+      {% for c in CONTINENTS %}
+        <option value="{{ c }}" {% if request.args.get('continent')==c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <select name="category" class="form-select">
+      <option value="">All Categories</option>
+      {% for c in CATEGORIES %}
+        <option value="{{ c }}" {% if request.args.get('category')==c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <select name="status" class="form-select">
+      <option value="">Any Status</option>
+      <option value="visited" {% if request.args.get('status')=='visited' %}selected{% endif %}>Visited</option>
+      <option value="not_visited" {% if request.args.get('status')=='not_visited' %}selected{% endif %}>Not Visited</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <select name="sort" class="form-select">
+      <option value="">Sort: Newest</option>
+      <option value="priority" {% if request.args.get('sort')=='priority' %}selected{% endif %}>Sort by Priority</option>
+    </select>
+  </div>
+  <div class="col-md-1 d-grid">
+    <button class="btn btn-primary" type="submit">Filter</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle" id="places-table">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th><th>Country</th><th>Continent</th><th>Type</th><th>Priority</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in places %}
+      <tr data-name="{{ p.name|lower }}" data-country="{{ p.country|lower }}">
+        <td>{{ p.name }}</td>
+        <td>{{ p.country }}</td>
+        <td>{{ p.continent }}</td>
+        <td>{{ p.category }}</td>
+        <td><span class="badge bg-priority-{{ p.priority|lower }}">{{ p.priority }}</span></td>
+        <td>
+          {% if p.visited %}
+            <span class="badge bg-success">Visited</span>
+            <small class="text-muted d-block">{{ p.visited_date }}</small>
+          {% else %}
+            <span class="badge bg-warning text-dark">Not Visited</span>
+          {% endif %}
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline-success toggle-visited" data-id="{{ p.id }}">
+            {% if p.visited %}Mark Unvisited{% else %}Mark Visited{% endif %}
+          </button>
+          <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_place', pid=p.id) }}">Edit</a>
+          <button class="btn btn-sm btn-outline-danger btn-delete" data-id="{{ p.id }}" data-name="{{ p.name }}">Delete</button>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-center text-muted">No places found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% set pages = (total // per_page) + (1 if total % per_page else 0) %}
+{% if pages > 1 %}
+<nav>
+  <ul class="pagination">
+    {% for i in range(1, pages+1) %}
+      <li class="page-item {% if i == page %}active{% endif %}"><a class="page-link" href="{{ request.full_path|replace('page=' ~ page, 'page=' ~ i) if 'page=' in request.full_path else request.full_path ~ ('&' if '?' in request.full_path else '?') ~ 'page=' ~ i }}">{{ i }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Place</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong id="del-name"></strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
