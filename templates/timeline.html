@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Visited Timeline</h2>
+<div class="list-group mt-3">
+  {% for p in places %}
+    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <div>
+        <div class="fw-bold">{{ p.name }} · {{ p.country }}</div>
+        <small class="text-muted">{{ p.continent }} · {{ p.category }} · {{ p.priority }}</small>
+      </div>
+      <span class="badge bg-success">{{ p.visited_date }}</span>
+    </a>
+  {% else %}
+    <div class="text-muted">No visited places yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

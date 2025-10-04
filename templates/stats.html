@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Travel Statistics</h2>
+<div class="row g-4 mt-1">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">Visited vs Not Visited</div>
+      <div class="card-body"><canvas id="pieVisited"></canvas></div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">Places by Continent</div>
+      <div class="card-body"><canvas id="barContinent"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="mt-4">
+  <div class="progress" role="progressbar" aria-label="Completion">
+    <div class="progress-bar progress-bar-striped" id="progressBar" style="width: 0%">0%</div>
+  </div>
+</div>
+{% endblock %}
