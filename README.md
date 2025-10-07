@@ -194,19 +194,17 @@ Full Stack Project/
 
 ---
 
-## 🚢 Deployment
-
-The application is deployment-ready for platforms like Render, Heroku, or PythonAnywhere.
-
-### For Heroku/Render:
-1. Add `gunicorn` to `requirements.txt`
-2. Create a `Procfile`:
-   ```
-   web: gunicorn app:app
-   ```
-3. Set environment variable: `SECRET_KEY`
-
----
+## working screenshot's:
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/54cd33e1-a5b8-4802-9b9c-dc54ce02617b" />
+This is the dashboard for the website
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5ce41581-5e77-4a8c-ba1f-cd31d5bef14e" />
+when we click on add places in previous this page will appear. we can add the places in this page 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1c81e5f4-9300-4847-8eaa-ccdc70613cf1" />
+In this page it will show all places which you have want or you already went (mark it as visit)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/91fd2bc9-4c1d-455c-a3e1-a31c0196a092" />
+In this page we can see Travel Statistics 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/410f5d59-9bdd-4557-9eba-590a3df9d820" />
+We see the Visited Timeline of place we visited 
 
 ## 📝 Future Enhancements
 
